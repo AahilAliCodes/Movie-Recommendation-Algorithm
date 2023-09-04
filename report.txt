@@ -1,5 +1,3 @@
-﻿* I was able to finish with no bugs that I know of as of right now. I used the spec specific STL containers for each class and have no memory leaks reported on G32.
-
 
 Outline of my Object-oriented programming thought process: 
 * I first implemented the treemultimap which I tested insert, find, get_value, and valid functions :
