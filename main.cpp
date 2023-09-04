@@ -4,24 +4,6 @@
 #include <string>
 using namespace std;
 
-//////////////////////////i/////////////////////////////////////////////////////
-//
-// You are free to do whatever you want with this file, since you won't
-// be turning it in.  Presumably, you will make changes to help you test
-// your classes.  For example, you might try to implement only some User
-// member functions to start out with, and so replace our main routine with
-// one that simply creates a User and verifies that the member functions you
-// implemented work correctly.
-//
-//////////////////////////i/////////////////////////////////////////////////////
-
-
-  // If your program is having trouble finding these files. replace the
-  // string literals with full path names to the files.  Also, for test
-  // purposes, you may want to create some small, simple user and movie
-  // data files to makde debuggiing easier, so you can replace the string
-  // literals with the names of those smaller files.
-
 const string USER_DATAFILE  = "users.txt";
 const string MOVIE_DATAFILE = "movies.txt";
 
