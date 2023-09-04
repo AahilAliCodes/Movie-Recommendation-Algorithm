@@ -1,0 +1,89 @@
+﻿* I was able to finish with no bugs that I know of as of right now. I used the spec specific STL containers for each class and have no memory leaks reported on G32.
+
+
+Outline of my Object-oriented programming thought process: 
+* I first implemented the treemultimap which I tested insert, find, get_value, and valid functions :
+    TreeMultimap<std::string, int> myMap;
+    // insert some values
+    myMap.insert("apple", 1);
+    myMap.insert("banana", 2);
+    myMap.insert("cherry", 3);
+    myMap.insert("apple", 8);
+    myMap.insert("apple", 44);
+    myMap.insert("cherry", 8);
+    myMap.insert("apple", 69);
+    myMap.insert("apple", 69);
+    // find some values and print them
+    auto it = myMap.find("apple");
+    while (it.is_valid()) {
+        std::cout << "Found " << it.get_value() << " for key 'apple'" << std::endl;
+        it.advance();
+    }
+
+
+This code outputs each map of key apples to its int value.  At first my tree multimap did not work correctly and would neglect the first item inserted (apple, 1) so this test code was helpful in testing what the functionality of the tree multimap was I also added more code testing if is_valid worked for a key that was not in the tree such as pear. 
+
+
+* Then, I implemented and tested UserDatabase and MovieDatabase classes.  I tested case-insensitivity and get_movies_with_genre, get_movies_with_director, get_movies_with_actor, get_movies_with_id 
+  
+  UserDatabase database;
+    database.load("users.txt");
+    User* user1 = database.get_user_from_email("AbFow2483@charter.net");
+    if (user1 != nullptr) {
+        cout << "User found: " << user1->get_full_name() << endl;
+    } else {
+        cout << "User not found" << endl;
+    }
+
+
+This code returned the full name of the user with the email address of AbFow2483@charter.net to check if the get_user_from_email function worked as intended.
+
+
+    vector<Movie*> movies = database.get_movies_with_director("CLINT eAstWOOD"); // note the case_insesnitive name.
+    cout << "Movies directed by Clint Eastwood:" << endl;
+    for (Movie* movie : movies) {
+        cout << movie->get_title() << " (" << movie->get_release_year() << ")" << endl;
+    }
+    Movie* movie = database.get_movie_from_id("id13832"); // note the case_insesnitive ID.
+    if (movie != nullptr) {
+        cout << "Movie from ID:" << endl;
+        cout << movie->get_title() << " (" << movie->get_release_year() << ")" << endl;
+    } else {
+        cout << "Movie not found" << endl;
+    }
+    movies = database.get_movies_with_actor("ViN Diesel"); // note the case_insesnitive Actor name.
+    cout << "Movies starring Vin Diesel" << endl;
+    for (Movie* movie : movies) {
+        cout << movie->get_title() << " (" << movie->get_release_year() << ")" << endl;
+    }
+    movies = database.get_movies_with_genre("COMEdy");  // note the case_insesnitive genre.
+    cout << "Comedy movies:" << endl;
+    for (Movie* movie : movies) {
+        cout << movie->get_title() << " (" << movie->get_release_year() << ")" << endl;
+    }
+
+
+Finally, I tested the recommender function:
+    Recommender recommender(tw, database);
+   findMatches(recommender, database, "RykBeasley@gmail.com", 5);
+
+
+void findMatches(const Recommender& r, const MovieDatabase& md, const string& user_email, int num_recommendations) {
+    // get up to ten movie recommendations for the user
+    vector<MovieAndRank> recommendations = r.recommend_movies(user_email, 10);
+    if (recommendations.empty())
+        cout << "We found no movies to recommend :(.\n";
+    else {
+        for (int i = 0; i < recommendations.size(); i++) {
+            const MovieAndRank& mr = recommendations[i];
+            Movie* m = md.get_movie_from_id(mr.movie_id);
+            cout << i+1 << ". " << m->get_title() << " ("
+            << m->get_release_year() << ")\n Rating: "
+            << m->get_rating() << "\n Compatibility Score: "
+            << mr.compatibility_score << "\n";
+        }
+    }
+}
+
+
+Which returns 5 movies sorted for best compatibility to least and returns a vector sorted for best matches.
